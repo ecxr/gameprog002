@@ -21,6 +21,19 @@ namespace UsingDeckClass
             // print deck empty information
             Console.WriteLine("Empty: " + deck.Empty);
 
+            //deck.Print();
+
+            // tell the deck to shuffle itself.
+            //deck.Shuffle();
+
+            //deck.Cut(26);
+
+            // take top card and print info
+            Card card = deck.TakeTopCard();
+            Console.WriteLine(card.Rank + " of " + card.Suit);
+            //Console.WriteLine();
+            //deck.Print();
+
             Console.WriteLine();
         }
     }
