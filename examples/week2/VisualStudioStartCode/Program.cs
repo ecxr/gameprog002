@@ -16,6 +16,12 @@ namespace UsingDeckClass
         /// <param name="args">command-line args</param>
         static void Main(string[] args)
         {
+            Deck deck = new Deck();
+
+            // print deck empty information
+            Console.WriteLine("Empty: " + deck.Empty);
+
+            Console.WriteLine();
         }
     }
 }
