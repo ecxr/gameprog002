@@ -19,10 +19,22 @@ namespace FirstXnaGame
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        // teddy bear drawing support
+        Texture2D bear0;
+        Rectangle drawRectangle0;
+        Texture2D bear1;
+        Rectangle drawRectangle1;
+        Texture2D bear2;
+        Rectangle drawRectangle2;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            // change resolution to 800x600
+            graphics.PreferredBackBufferWidth = 800;
+            graphics.PreferredBackBufferHeight = 600;
         }
 
         /// <summary>
@@ -47,7 +59,13 @@ namespace FirstXnaGame
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            // load teddy bears and build draw rectangles
+            bear0 = Content.Load<Texture2D>("teddybear0");
+            drawRectangle0 = new Rectangle(150, 100, bear0.Width, bear0.Height);
+            bear1 = Content.Load<Texture2D>("teddybear1");
+            drawRectangle1 = new Rectangle(300, 100, bear1.Width, bear1.Height);
+            bear2 = Content.Load<Texture2D>("teddybear2");
+            drawRectangle2 = new Rectangle(450, 100, bear2.Width, bear2.Height);
         }
 
         /// <summary>
@@ -83,7 +101,14 @@ namespace FirstXnaGame
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            // draw teddy bears
+            spriteBatch.Begin();
+
+            spriteBatch.Draw(bear0, drawRectangle0, Color.White);
+            spriteBatch.Draw(bear1, drawRectangle1, Color.White);
+            spriteBatch.Draw(bear2, drawRectangle2, Color.White);
+
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
