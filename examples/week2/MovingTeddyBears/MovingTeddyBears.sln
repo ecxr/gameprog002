@@ -1,9 +1,11 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C# Express 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovingTeddyBears", "MovingTeddyBears\MovingTeddyBears\MovingTeddyBears.csproj", "{27FE6632-C999-47E5-8634-D99709D233A7}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "MovingTeddyBearsContent", "MovingTeddyBears\MovingTeddyBearsContent\MovingTeddyBearsContent.contentproj", "{F3ECB218-AE86-4423-AA2F-8A348B000807}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovingTeddyBearsContent", "MovingTeddyBears\MovingTeddyBearsContent\MovingTeddyBearsContent.contentproj", "{F3ECB218-AE86-4423-AA2F-8A348B000807}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

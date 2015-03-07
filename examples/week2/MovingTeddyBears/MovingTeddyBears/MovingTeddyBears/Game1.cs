@@ -19,10 +19,22 @@ namespace MovingTeddyBears
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        const int WINDOW_WIDTH  = 800;
+        const int WINDOW_HEIGHT = 600;
+
+        // teddy bears
+        TeddyBear bear0;
+        TeddyBear bear1;
+        TeddyBear bear2;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            // set resolution
+            graphics.PreferredBackBufferWidth  = WINDOW_WIDTH;
+            graphics.PreferredBackBufferHeight = WINDOW_HEIGHT;
         }
 
         /// <summary>
@@ -47,7 +59,11 @@ namespace MovingTeddyBears
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            // Create teddy bears
+            bear0 = new TeddyBear(Content, "teddybear0", 100, 100, WINDOW_WIDTH, WINDOW_HEIGHT);
+            bear1 = new TeddyBear(Content, "teddybear1", 200, 100, WINDOW_WIDTH, WINDOW_HEIGHT);
+            bear2 = new TeddyBear(Content, "teddybear2", 300, 100, WINDOW_WIDTH, WINDOW_HEIGHT);
+
         }
 
         /// <summary>
@@ -70,7 +86,10 @@ namespace MovingTeddyBears
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            // TODO: Add your update logic here
+            // update teddy bears
+            bear0.Update();
+            bear1.Update();
+            bear2.Update();
 
             base.Update(gameTime);
         }
@@ -83,7 +102,14 @@ namespace MovingTeddyBears
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            // draw teddy bears
+            spriteBatch.Begin();
+
+            bear0.Draw(spriteBatch);
+            bear1.Draw(spriteBatch);
+            bear2.Draw(spriteBatch);
+
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
