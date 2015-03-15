@@ -23,10 +23,13 @@ namespace ProgrammingAssignment2
         SpriteBatch spriteBatch;
 
         // STUDENTS: declare variables for three sprites
-
+        Texture2D sprite0;
+        Texture2D sprite1;
+        Texture2D sprite2;
 
         // STUDENTS: declare variables for x and y speeds
-
+        int deltaX;
+        int deltaY;
 
         // used to handle generating random values
         Random rand = new Random();
@@ -69,10 +72,13 @@ namespace ProgrammingAssignment2
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // STUDENTS: load the sprite images here
-
-
-            // STUDENTS: set the currentSprite variable to one of your sprite variables
-
+            sprite0 = Content.Load<Texture2D>("mario");
+            sprite1 = Content.Load<Texture2D>("luigi");
+            sprite2 = Content.Load<Texture2D>("princess");
+            
+            // STUDENTS: set the currentSprite variable to one of your 
+            // sprite variables
+            currentSprite = sprite0;
         }
 
         /// <summary>
@@ -100,40 +106,47 @@ namespace ProgrammingAssignment2
             {
                 elapsedTime = 0;
 
-                // STUDENTS: uncomment the code below and make it generate a random number 
-                // between 0 and 2 inclusive using the rand field I provided
-                //int spriteNumber = ;
+                // STUDENTS: uncomment the code below and make it generate a random 
+                // number between 0 and 2 inclusive using the rand field I provided
+                int spriteNumber = rand.Next(0, 3);
 
                 // sets current sprite
-                // STUDENTS: uncomment the lines below and change sprite0, sprite1, and sprite2
-                //      to the three different names of your sprite variables
-                //if (spriteNumber == 0)
-                //{
-                //    currentSprite = sprite0;
-                //}
-                //else if (spriteNumber == 1)
-                //{
-                //    currentSprite = sprite1;
-                //}
-                //else if (spriteNumber == 2)
-                //{
-                //    currentSprite = sprite2;
-                //}
+                // STUDENTS: uncomment the lines below and change sprite0, sprite1, and 
+                // sprite2 to the three different names of your sprite variables
+                if (spriteNumber == 0)
+                {
+                    currentSprite = sprite0;
+                }
+                else if (spriteNumber == 1)
+                {
+                    currentSprite = sprite1;
+                }
+                else if (spriteNumber == 2)
+                {
+                    currentSprite = sprite2;
+                }
 
-                // STUDENTS: set the drawRectangle.Width and drawRectangle.Height to match the width and height of currentSprite
+                // STUDENTS: set the drawRectangle.Width and drawRectangle.Height 
+                // to match the width and height of currentSprite
+                drawRectangle.Width  = currentSprite.Width;
+                drawRectangle.Height = currentSprite.Height;
 
-
-                // STUDENTS: center the draw rectangle in the window. Note that the X and Y properties of the rectangle
-                // are for the upper left corner of the rectangle, not the center of the rectangle
-
-
-                // STUDENTS: write code below to generate random numbers  between -4 and 4 inclusive for the x and y speed 
-				// using the rand field I provided
+                // STUDENTS: center the draw rectangle in the window. Note that 
+                // the X and Y properties of the rectangle are for the upper left 
+                // corner of the rectangle, not the center of the rectangle
+                drawRectangle.X = (WINDOW_WIDTH  / 2) - (currentSprite.Width  / 2);
+                drawRectangle.Y = (WINDOW_HEIGHT / 2) - (currentSprite.Height / 2);
+                
+                // STUDENTS: write code below to generate random numbers  between
+                // -4 and 4 inclusive for the x and y speed using the rand field I provided
                 // CAUTION: Don't redeclare the x speed and y speed variables here!
-
+                deltaX = rand.Next(-4, 5);
+                deltaY = rand.Next(-4, 5);
             }
 
             // STUDENTS: move the drawRectangle by the x speed and the y speed
+            drawRectangle.X += deltaX;
+            drawRectangle.Y += deltaY;
 
 
             base.Update(gameTime);
@@ -148,7 +161,9 @@ namespace ProgrammingAssignment2
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // STUDENTS: draw current sprite here
-
+            spriteBatch.Begin();
+            spriteBatch.Draw(currentSprite, drawRectangle, Color.White);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
