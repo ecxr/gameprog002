@@ -75,7 +75,7 @@ namespace SelectionInGames
                     elapsedFrameTime = 0;
 
                     // advance the animation
-                    if (currentFrame <= NUM_FRAMES - 1)
+                    if (currentFrame < NUM_FRAMES - 1)
                     {
                         currentFrame++;
                         SetSourceRectangleLocation(currentFrame);

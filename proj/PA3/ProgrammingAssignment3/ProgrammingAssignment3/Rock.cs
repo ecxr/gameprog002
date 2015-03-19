@@ -97,11 +97,10 @@ namespace ProgrammingAssignment3
                 drawRectangle.Y += (int)(velocity.Y * gameTime.ElapsedGameTime.Milliseconds);
 
                 // STUDENTS: Set outsideWindow to true if the rock is outside the window
-                if (drawRectangle.X < 0 || drawRectangle.X > windowWidth ||
-                    drawRectangle.Y < 0 || drawRectangle.Y > windowHeight)
-                {
-                    outsideWindow = true;
-                }
+                outsideWindow = drawRectangle.Right < 0 ||
+                    drawRectangle.Left > windowWidth ||
+                    drawRectangle.Bottom < 0 ||
+                    drawRectangle.Top > windowHeight;
             }
         }
 
