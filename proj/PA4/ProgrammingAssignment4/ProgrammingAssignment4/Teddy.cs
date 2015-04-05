@@ -102,7 +102,9 @@ namespace ProgrammingAssignment4
             {
                 location.X += velocity.X * gameTime.ElapsedGameTime.Milliseconds;
                 location.Y += velocity.Y * gameTime.ElapsedGameTime.Milliseconds;
-                drawRectangle.Location = new Point((int)location.X - halfDrawRectangleWidth, (int)location.Y - halfDrawRectangleWidth);
+                drawRectangle.Location = new Point(
+                    (int)location.X - halfDrawRectangleWidth, 
+                    (int)location.Y - halfDrawRectangleWidth);
             }
 
             // check for mouse over teddy

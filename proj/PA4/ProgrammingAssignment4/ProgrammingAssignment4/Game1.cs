@@ -145,7 +145,9 @@ namespace ProgrammingAssignment4
                 // If not, stop the teddy from collecting
                 if (pickups.Count > 0)
                 {
-                    teddy.SetTarget(new Vector2(pickups[0].CollisionRectangle.Center.X, pickups[0].CollisionRectangle.Center.Y));
+                    teddy.SetTarget(new Vector2(
+                        pickups[0].CollisionRectangle.Center.X, 
+                        pickups[0].CollisionRectangle.Center.Y));
                 }
                 else
                 {
