@@ -222,13 +222,19 @@ namespace GameProject
         {
             // generate random location
             // we dont want to spawn inside the first or last 100 pixels on each side of the window.
-            int x = GetRandomLocation(GameConstants.SPAWN_BORDER_SIZE, GameConstants.WINDOW_WIDTH - GameConstants.SPAWN_BORDER_SIZE);
-            int y = GetRandomLocation(GameConstants.SPAWN_BORDER_SIZE, GameConstants.WINDOW_HEIGHT - GameConstants.SPAWN_BORDER_SIZE);
+            int x = GetRandomLocation(
+                GameConstants.SPAWN_BORDER_SIZE, 
+                GameConstants.WINDOW_WIDTH - (2 * GameConstants.SPAWN_BORDER_SIZE));
+            int y = GetRandomLocation(
+                GameConstants.SPAWN_BORDER_SIZE,
+                GameConstants.WINDOW_HEIGHT - (2 * GameConstants.SPAWN_BORDER_SIZE));
 
             // generate random velocity
             float speed = GameConstants.MIN_BEAR_SPEED + RandomNumberGenerator.NextFloat(GameConstants.BEAR_SPEED_RANGE);
-            float angle = RandomNumberGenerator.NextFloat(1.0f) * (float)Math.PI;
-            Vector2 velocity = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
+            float angle = RandomNumberGenerator.NextFloat((float)Math.PI * 2);
+            Vector2 velocity = new Vector2(
+                (float)Math.Cos(angle) * speed, 
+                (float)Math.Sin(angle) * speed * -1);
 
             // create new bear
             TeddyBear newBear = new TeddyBear(Content, "teddybear", x, y, velocity, null, null);
