@@ -38,7 +38,7 @@ namespace ProgrammingAssignment5
 
         // spawning support
         const int MIN_SPAWN_DELAY_MILLISECONDS = 1000;
-        const int MAX_SPAWN_DELAY_MILLISECONDS = 3000;
+        const int MAX_SPAWN_DELAY_MILLISECONDS = 3001;
         int targetSpawnDelayMilliseconds = 0;
         int elapsedSpawnDelayMilliseconds = 0;
 
@@ -170,8 +170,8 @@ namespace ProgrammingAssignment5
                         mine.Active = false;
 
                         explosions.Add(new Explosion(explosionSprite,
-                            bear.CollisionRectangle.Center.X,
-                            bear.CollisionRectangle.Center.Y));
+                            mine.CollisionRectangle.Center.X,
+                            mine.CollisionRectangle.Center.Y));
                     }
                 }
             }
