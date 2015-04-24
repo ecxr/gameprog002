@@ -104,118 +104,118 @@ namespace RubberChickenGame
                 this.Exit();
 
             // update game entities
-            //MouseState mouse = Mouse.GetState();
-            //foreach (RubberChicken chicken in chickens)
-            //{
-            //    // NOTE: changed rubber chicken speed to float for finer granularity
-            //    chicken.Update(gameTime, mouse);
-            //}
-            //foreach (TeddyBear bear in bears)
-            //{
-            //    bear.Update(gameTime);
-            //}
-            //foreach (Explosion explosion in explosions)
-            //{
-            //    explosion.Update(gameTime);
-            //}
+            MouseState mouse = Mouse.GetState();
+            foreach (RubberChicken chicken in chickens)
+            {
+                // NOTE: changed rubber chicken speed to float for finer granularity
+                chicken.Update(gameTime, mouse);
+            }
+            foreach (TeddyBear bear in bears)
+            {
+                bear.Update(gameTime);
+            }
+            foreach (Explosion explosion in explosions)
+            {
+                explosion.Update(gameTime);
+            }
 
             // check for collisions between chickens and teddies
             // NOTE: Using nested loops. Need outer for loop because we might add chickens
-            //for (int i = 0; i < chickens.Count; i++)
-            //{
-            //    foreach (TeddyBear bear in bears)
-            //    {
-            //        if (chickens[i].Active &&
-            //            bear.Active &&
-            //            chickens[i].CollisionRectangle.Intersects(bear.CollisionRectangle))
-            //        {
-            //            // detected collision, apply damage to bear and explode as appropriate
-            //            // NOTE: Added health field and TakeDamage methods to TeddyBear 
-            //            bear.TakeDamage(chickens[i].Damage);
-            //            if (!bear.Active)
-            //            {
-            //                // NOTE: Changed explosion class to start playing on creation
-            //                explosions.Add(new Explosion(explosionSpriteStrip,
-            //                    bear.CollisionRectangle.Center.X,
-            //                    bear.CollisionRectangle.Center.Y));
-            //            }
+            for (int i = 0; i < chickens.Count; i++)
+            {
+                foreach (TeddyBear bear in bears)
+                {
+                    if (chickens[i].Active &&
+                        bear.Active &&
+                        chickens[i].CollisionRectangle.Intersects(bear.CollisionRectangle))
+                    {
+                        // detected collision, apply damage to bear and explode as appropriate
+                        // NOTE: Added health field and TakeDamage methods to TeddyBear 
+                        bear.TakeDamage(chickens[i].Damage);
+                        if (!bear.Active)
+                        {
+                            // NOTE: Changed explosion class to start playing on creation
+                            explosions.Add(new Explosion(explosionSpriteStrip,
+                                bear.CollisionRectangle.Center.X,
+                                bear.CollisionRectangle.Center.Y));
+                        }
 
-            //            // explode chicken and spawn new chicken at start location of this one
-            //            // NOTE: Cool bug when I tried testing with above in place but not this code
-            //            // NOTE: Added GetChickenStartY here (duplicated code in multiple places)
-            //            chickens[i].Active = false;
-            //            explosions.Add(new Explosion(explosionSpriteStrip,
-            //                chickens[i].CollisionRectangle.Center.X,
-            //                chickens[i].CollisionRectangle.Center.Y));
-            //            chickens.Add(new RubberChicken(chickenSprite,
-            //                new Vector2(chickens[i].CollisionRectangle.Center.X,
-            //                    GetChickenStartY()),
-            //                    CHICKEN_DAMAGE));
-            //        }
-            //    }
-            //}
+                        // explode chicken and spawn new chicken at start location of this one
+                        // NOTE: Cool bug when I tried testing with above in place but not this code
+                        // NOTE: Added GetChickenStartY here (duplicated code in multiple places)
+                        chickens[i].Active = false;
+                        explosions.Add(new Explosion(explosionSpriteStrip,
+                            chickens[i].CollisionRectangle.Center.X,
+                            chickens[i].CollisionRectangle.Center.Y));
+                        chickens.Add(new RubberChicken(chickenSprite,
+                            new Vector2(chickens[i].CollisionRectangle.Center.X,
+                                GetChickenStartY()),
+                                CHICKEN_DAMAGE));
+                    }
+                }
+            }
 
             // spawn teddy as appropriate
-            //elapsedSpawnMilliseconds += gameTime.ElapsedGameTime.Milliseconds;
-            //if (elapsedSpawnMilliseconds >= TOTAL_SPAWN_MILLISECONDS)
-            //{
-            //    elapsedSpawnMilliseconds = 0;
+            elapsedSpawnMilliseconds += gameTime.ElapsedGameTime.Milliseconds;
+            if (elapsedSpawnMilliseconds >= TOTAL_SPAWN_MILLISECONDS)
+            {
+                elapsedSpawnMilliseconds = 0;
 
-            //    // NOTE: Added a new constructor for providing sprite and velocity
-            //    // NOTE: TeddyBear constructors should be cleaned up!
-            //    // NOTE: Turned off teddy bouncing for this game
-            //    bears.Add(new TeddyBear(bearSprite,
-            //        rand.Next(WINDOW_WIDTH - bearSprite.Width + 1),
-            //        -bearSprite.Height / 2,
-            //        new Vector2(0, TEDDY_BEAR_SPEED),
-            //        WINDOW_WIDTH, WINDOW_HEIGHT));
-            //}
+                // NOTE: Added a new constructor for providing sprite and velocity
+                // NOTE: TeddyBear constructors should be cleaned up!
+                // NOTE: Turned off teddy bouncing for this game
+                bears.Add(new TeddyBear(bearSprite,
+                    rand.Next(WINDOW_WIDTH - bearSprite.Width + 1),
+                    -bearSprite.Height / 2,
+                    new Vector2(0, TEDDY_BEAR_SPEED),
+                    WINDOW_WIDTH, WINDOW_HEIGHT));
+            }
 
             // check for chicken leaving window
-            //foreach (RubberChicken chicken in chickens)
-            //{
-            //    if (chicken.CollisionRectangle.Bottom < 0)
-            //    {
-            //        // NOTE: Added Reset method to RubberChicken
-            //        chicken.Reset(GetChickenStartY());
-            //    }
-            //}
+            foreach (RubberChicken chicken in chickens)
+            {
+                if (chicken.CollisionRectangle.Bottom < 0)
+                {
+                    // NOTE: Added Reset method to RubberChicken
+                    chicken.Reset(GetChickenStartY());
+                }
+            }
 
             // check for teddy leaving window
-            //foreach (TeddyBear bear in bears)
-            //{
-            //    if (bear.CollisionRectangle.Top > WINDOW_HEIGHT)
-            //    {
-            //        bear.Active = false;
-            //    }
-            //}
+            foreach (TeddyBear bear in bears)
+            {
+                if (bear.CollisionRectangle.Top > WINDOW_HEIGHT)
+                {
+                    bear.Active = false;
+                }
+            }
 
             // clean out dead chickens
-            //for (int i = chickens.Count - 1; i >= 0; i--)
-            //{
-            //    if (!chickens[i].Active)
-            //    {
-            //        chickens.RemoveAt(i);
-            //    }
-            //}
+            for (int i = chickens.Count - 1; i >= 0; i--)
+            {
+                if (!chickens[i].Active)
+                {
+                    chickens.RemoveAt(i);
+                }
+            }
 
             // clean out dead teddies
-            //for (int i = bears.Count - 1; i >= 0; i--)
-            //{
-            //    if (!bears[i].Active)
-            //    {
-            //        bears.RemoveAt(i);
-            //    }
-            //}
+            for (int i = bears.Count - 1; i >= 0; i--)
+            {
+                if (!bears[i].Active)
+                {
+                    bears.RemoveAt(i);
+                }
+            }
 
             // clean out dead explosions
-            //for (int i = explosions.Count - 1; i >= 0; i--)
-            //{
-            //    if (!explosions[i].Active)
-            //    {
-            //        explosions.RemoveAt(i);
-            //    }
-            //}
+            for (int i = explosions.Count - 1; i >= 0; i--)
+            {
+                if (!explosions[i].Active)
+                {
+                    explosions.RemoveAt(i);
+                }
+            }
 
             base.Update(gameTime);
         }
@@ -229,20 +229,20 @@ namespace RubberChickenGame
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // draw game entities
-            //spriteBatch.Begin();
-            //foreach (RubberChicken chicken in chickens)
-            //{
-            //    chicken.Draw(spriteBatch);
-            //}
-            //foreach (TeddyBear bear in bears)
-            //{
-            //    bear.Draw(spriteBatch);
-            //}
-            //foreach (Explosion explosion in explosions)
-            //{
-            //    explosion.Draw(spriteBatch);
-            //}
-            //spriteBatch.End();
+            spriteBatch.Begin();
+            foreach (RubberChicken chicken in chickens)
+            {
+                chicken.Draw(spriteBatch);
+            }
+            foreach (TeddyBear bear in bears)
+            {
+                bear.Draw(spriteBatch);
+            }
+            foreach (Explosion explosion in explosions)
+            {
+                explosion.Draw(spriteBatch);
+            }
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
