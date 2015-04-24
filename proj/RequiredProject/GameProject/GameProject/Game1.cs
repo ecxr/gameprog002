@@ -212,8 +212,8 @@ namespace GameProject
                         projectile.Active = false;
 
                         explosions.Add(new Explosion(explosionSpriteStrip,
-                            bear.CollisionRectangle.Center.X,
-                            bear.CollisionRectangle.Center.Y));
+                            bear.Location.X,
+                            bear.Location.Y));
                     }
                 }
             }
