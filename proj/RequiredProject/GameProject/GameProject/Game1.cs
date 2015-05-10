@@ -203,6 +203,7 @@ namespace GameProject
                         bear.Location.Y));
                 }
             }
+
             // check and resolve collisions between burger and projectiles
             foreach (Projectile projectile in projectiles)
             {
@@ -370,17 +371,16 @@ namespace GameProject
 
             // make sure we don't spawn into a collision
             List<Rectangle> collisions = GetCollisionRectangles();
-            Rectangle location = new Rectangle(x, y, teddySprite.Width, teddySprite.Height);
-
-            while (CollisionUtils.IsCollisionFree(location, collisions))
+            while (!CollisionUtils.IsCollisionFree(newBear.CollisionRectangle, collisions))
             {
-                location.X = GetRandomLocation(
+                newBear.X = GetRandomLocation(
                     GameConstants.SPAWN_BORDER_SIZE,
                     GameConstants.WINDOW_WIDTH - (2 * GameConstants.SPAWN_BORDER_SIZE));
-                location.Y = GetRandomLocation(
+                newBear.Y = GetRandomLocation(
                     GameConstants.SPAWN_BORDER_SIZE,
                     GameConstants.WINDOW_HEIGHT - (2 * GameConstants.SPAWN_BORDER_SIZE));
             }
+
             // add new bear to list
             bears.Add(newBear);
         }
