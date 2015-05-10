@@ -31,6 +31,7 @@ namespace GameProject
         static Texture2D frenchFriesSprite;
         static Texture2D teddyBearProjectileSprite;
         static Texture2D explosionSpriteStrip;
+        static Texture2D teddySprite;
 
         // scoring support
         int score = 0;
@@ -92,6 +93,7 @@ namespace GameProject
             teddyBearProjectileSprite = Content.Load<Texture2D>("teddybearprojectile");
             frenchFriesSprite = Content.Load<Texture2D>("frenchfries");
             explosionSpriteStrip = Content.Load<Texture2D>("explosion");
+            teddySprite = Content.Load<Texture2D>("teddybear");
 
             // add initial game objects
             // burger should be centered in the window horizonatally and at 7/8th of the window vertically
@@ -189,8 +191,29 @@ namespace GameProject
             }
 
             // check and resolve collisions between burger and teddy bears
-
+            foreach (TeddyBear bear in bears)
+            {
+                if (bear.Active &&
+                    bear.CollisionRectangle.Intersects(burger.CollisionRectangle))
+                {
+                    burger.Health -= GameConstants.BEAR_DAMAGE;
+                    bear.Active = false;
+                    explosions.Add(new Explosion(explosionSpriteStrip,
+                        bear.Location.X,
+                        bear.Location.Y));
+                }
+            }
             // check and resolve collisions between burger and projectiles
+            foreach (Projectile projectile in projectiles)
+            {
+                if (projectile.Active && 
+                    projectile.Type == ProjectileType.TeddyBear &&
+                    projectile.CollisionRectangle.Intersects(burger.CollisionRectangle))
+                {
+                    projectile.Active = false;
+                    burger.Health -= GameConstants.TEDDY_BEAR_PROJECTILE_DAMAGE;
+                }
+            }
 
             // check and resolve collisions between teddy bears and projectiles
             // update teddy bears
@@ -226,6 +249,13 @@ namespace GameProject
                     bears.RemoveAt(i);
                 }
             }
+
+            // Spawn bears until there are MAX_BEARS
+            while(bears.Count < GameConstants.MAX_BEARS)
+            {
+                SpawnBear();
+            }
+
 
             // clean out inactive projectiles
             for (int i = projectiles.Count - 1; i >= 0; i--)
@@ -339,7 +369,18 @@ namespace GameProject
             TeddyBear newBear = new TeddyBear(Content, "teddybear", x, y, velocity, null, null);
 
             // make sure we don't spawn into a collision
+            List<Rectangle> collisions = GetCollisionRectangles();
+            Rectangle location = new Rectangle(x, y, teddySprite.Width, teddySprite.Height);
 
+            while (CollisionUtils.IsCollisionFree(location, collisions))
+            {
+                location.X = GetRandomLocation(
+                    GameConstants.SPAWN_BORDER_SIZE,
+                    GameConstants.WINDOW_WIDTH - (2 * GameConstants.SPAWN_BORDER_SIZE));
+                location.Y = GetRandomLocation(
+                    GameConstants.SPAWN_BORDER_SIZE,
+                    GameConstants.WINDOW_HEIGHT - (2 * GameConstants.SPAWN_BORDER_SIZE));
+            }
             // add new bear to list
             bears.Add(newBear);
         }
