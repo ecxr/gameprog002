@@ -139,15 +139,33 @@ namespace GameProject
         /// french fries as appropriate
         /// </summary>
         /// <param name="gameTime">game time</param>
-        /// <param name="mouse">the current state of the mouse</param>
-        public void Update(GameTime gameTime, MouseState mouse)
+        /// <param name="keyboard">the current state of the keyboard</param>
+        public void Update(GameTime gameTime, KeyboardState keyboard)
         {
             // burger should only respond to input if it still has health
             if (health > 0)
             {
                 // move burger using mouse
-                drawRectangle.X = mouse.X - drawRectangle.Width / 2;
-                drawRectangle.Y = mouse.Y - drawRectangle.Height / 2;
+                // move to the left
+                if (keyboard.IsKeyDown(Keys.A))
+                {
+                    drawRectangle.X += GameConstants.BURGER_MOVEMENT_AMOUNT - drawRectangle.Width / 2;
+                }
+                // move to the right
+                if (keyboard.IsKeyDown(Keys.D))
+                {
+                    drawRectangle.X -= GameConstants.BURGER_MOVEMENT_AMOUNT - drawRectangle.Width / 2;
+                }
+                // Move up
+                if (keyboard.IsKeyDown(Keys.W))
+                {
+                    drawRectangle.Y += GameConstants.BURGER_MOVEMENT_AMOUNT - drawRectangle.Width / 2;
+                }
+                // Move down
+                if (keyboard.IsKeyDown(Keys.S))
+                {
+                    drawRectangle.Y -= GameConstants.BURGER_MOVEMENT_AMOUNT - drawRectangle.Width / 2;
+                }
 
                 // clamp burger in window
                 if (drawRectangle.Left < 0)
@@ -174,7 +192,7 @@ namespace GameProject
                 elapsedCooldownTime += gameTime.ElapsedGameTime.Milliseconds;
                 
                 if (elapsedCooldownTime >= GameConstants.BURGER_COOLDOWN_MILLISECONDS ||
-                    mouse.LeftButton == ButtonState.Released)
+                    keyboard.IsKeyUp(Keys.Space))
                 {
                     canShoot = true;
                     elapsedCooldownTime = 0;
@@ -183,7 +201,7 @@ namespace GameProject
             // timer concept (for animations) introduced in Chapter 7
 
             // shoot if appropriate
-            if (mouse.LeftButton == ButtonState.Pressed &&
+            if (keyboard.IsKeyDown(Keys.Space) &&
                 health > 0 &&
                 canShoot)
             {
@@ -197,6 +215,9 @@ namespace GameProject
                     -GameConstants.FRENCH_FRIES_PROJECTILE_SPEED);
                 
                 Game1.AddProjectile(projectile);
+
+                // Play the shooting sounds
+                shootSound.Play();
             }
         }
 

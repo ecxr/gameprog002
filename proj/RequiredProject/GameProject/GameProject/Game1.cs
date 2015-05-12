@@ -86,8 +86,15 @@ namespace GameProject
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // load audio content
+            burgerDamage = Content.Load<SoundEffect>(@"sounds\BurgerDamage");
+            burgerDeath = Content.Load<SoundEffect>(@"sounds\BurgerDeath");
+            burgerShot = Content.Load<SoundEffect>(@"sounds\BurgerShot");
+            explosion = Content.Load<SoundEffect>(@"sounds\Explosion");
+            teddyBounce = Content.Load<SoundEffect>(@"sounds\TeddyBounce");
+            teddyShot = Content.Load<SoundEffect>(@"sounds\TeddyShot");
 
             // load sprite font
+            font = Content.Load<SpriteFont>("Arial20");
 
             // load projectile and explosion sprites
             teddyBearProjectileSprite = Content.Load<Texture2D>("teddybearprojectile");
@@ -99,7 +106,7 @@ namespace GameProject
             // burger should be centered in the window horizonatally and at 7/8th of the window vertically
             int x = (GameConstants.WINDOW_WIDTH / 2);
             int y = (int)(Math.Round(GameConstants.WINDOW_HEIGHT * 0.875));
-            burger = new Burger(Content, "burger", x, y, null);
+            burger = new Burger(Content, "burger", x, y, burgerShot);
 
             for (int i = 0; i < GameConstants.MAX_BEARS; i++)
             {
@@ -107,6 +114,8 @@ namespace GameProject
             }
 
             // set initial health and score strings
+            healthString = GameConstants.HEALTH_PREFIX + burger.Health;
+            scoreString = GameConstants.SCORE_PREFIX + score;
         }
 
         /// <summary>
@@ -130,9 +139,9 @@ namespace GameProject
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
 
-            // get current mouse state and update burger
-            MouseState mouse = Mouse.GetState();
-            burger.Update(gameTime, mouse);
+            // get current keyboard state and update burger
+            KeyboardState keyboard = Keyboard.GetState();
+            burger.Update(gameTime, keyboard);
 
             // update other game objects
             foreach (TeddyBear bear in bears)
@@ -174,6 +183,7 @@ namespace GameProject
                             {
                                 bears[i].Velocity = info.FirstVelocity;
                                 bears[i].DrawRectangle = info.FirstDrawRectangle;
+                                teddyBounce.Play();
                             }
 
                             if (info.SecondOutOfBounds)
@@ -184,6 +194,7 @@ namespace GameProject
                             {
                                 bears[j].Velocity = info.SecondVelocity;
                                 bears[j].DrawRectangle = info.SecondDrawRectangle;
+                                teddyBounce.Play();
                             }
                         }
                     }
@@ -200,7 +211,11 @@ namespace GameProject
                     bear.Active = false;
                     explosions.Add(new Explosion(explosionSpriteStrip,
                         bear.Location.X,
-                        bear.Location.Y));
+                        bear.Location.Y,
+                        explosion));
+                    burgerDamage.Play();
+                    healthString = GameConstants.HEALTH_PREFIX + burger.Health;
+                    CheckBurgerKill();
                 }
             }
 
@@ -213,6 +228,9 @@ namespace GameProject
                 {
                     projectile.Active = false;
                     burger.Health -= GameConstants.TEDDY_BEAR_PROJECTILE_DAMAGE;
+                    healthString = GameConstants.HEALTH_PREFIX + burger.Health;
+                    burgerDamage.Play();
+                    CheckBurgerKill();
                 }
             }
 
@@ -237,7 +255,11 @@ namespace GameProject
 
                         explosions.Add(new Explosion(explosionSpriteStrip,
                             bear.Location.X,
-                            bear.Location.Y));
+                            bear.Location.Y,
+                            explosion));
+
+                        score += GameConstants.BEAR_POINTS;
+                        scoreString = GameConstants.SCORE_PREFIX + score;
                     }
                 }
             }
@@ -306,6 +328,8 @@ namespace GameProject
             }
 
             // draw score and health
+            spriteBatch.DrawString(font, healthString, GameConstants.HEALTH_LOCATION, Color.White);
+            spriteBatch.DrawString(font, scoreString, GameConstants.SCORE_LOCATION, Color.White);
 
             spriteBatch.End();
 
@@ -367,7 +391,7 @@ namespace GameProject
                 (float)Math.Sin(angle) * speed * -1);
 
             // create new bear
-            TeddyBear newBear = new TeddyBear(Content, "teddybear", x, y, velocity, null, null);
+            TeddyBear newBear = new TeddyBear(Content, "teddybear", x, y, velocity, teddyBounce, teddyShot);
 
             // make sure we don't spawn into a collision
             List<Rectangle> collisions = GetCollisionRectangles();
@@ -424,7 +448,11 @@ namespace GameProject
         /// </summary>
         private void CheckBurgerKill()
         {
-
+            if (burger.Health <= 0 && !burgerDead)
+            {
+                burgerDead = true;
+                burgerDeath.Play();
+            }
         }
 
         #endregion
